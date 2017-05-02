@@ -1,0 +1,1 @@
+WebApp developed with Django-Python to test MercadoPago checkout.
