@@ -17,7 +17,7 @@
                     {{ product.price }}
                 </p>
                 {% if user.is_authenticated %}
-                    <a href="">Comprar!</a>
+                    <a href="{% url 'product' product.id %}">Comprar!</a>
                 {% endif %}
             </div>
             <br>
