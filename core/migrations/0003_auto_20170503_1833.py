@@ -18,6 +18,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('status', models.CharField(default=b'pending', max_length=10)),
+                ('preference', models.CharField(max_length=50)),
+                ('mporder', models.CharField(max_length=50, null=True, blank=True)),
             ],
         ),
         migrations.AlterModelOptions(

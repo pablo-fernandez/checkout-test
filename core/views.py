@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
-from core.models import Product
+from core.models import Product, Order
 import mercadopago
 
 
@@ -29,7 +29,8 @@ def product(request, product_id):
     mp = mercadopago.MP(settings.MP_CLIENT_ID, settings.MP_CLIENT_SECRET)
 
     preferenceResult = mp.create_preference(preference)
-    
+    order = Order.objects.create(product=product, user=request.user, preference=preferenceResult["response"]["id"])
+
     payment_url = preferenceResult["response"]["sandbox_init_point"]
 
     context = {

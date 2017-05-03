@@ -23,6 +23,8 @@ class Order(models.Model):
     user = models.ForeignKey(User)
     product = models.ForeignKey(Product)
     status = models.CharField(max_length=10, default='pending')
+    preference = models.CharField(max_length=50)
+    mporder = models.CharField(max_length=50, null=True, blank=True)    
 
     def complete():
         if not self.status == 'pending':
