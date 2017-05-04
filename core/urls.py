@@ -8,6 +8,7 @@ urlpatterns = patterns(
     url(r'^ingresar/$', auth_views.login, {'template_name': 'core/login.html'}, name='login'),
     url(r'^salir/$', auth_views.logout, {'template_name': 'core/logout.html'}, name='logout'),
     url(r'^ordenes$', 'core.views.orders', name="orders"),
-    url(r'^product/([0-9]*)$', 'core.views.product', name="product"),
+    url(r'^producto/([0-9]*)$', 'core.views.product', name="product"),
+    url(r'^comprar/([0-9]*)$', 'core.views.purchase', name="purchase"),
     url(r'^mp-notifications$', 'core.views.mp_notifications', name="mp-notifications"),
 )

@@ -16,7 +16,7 @@
                 {{ product.price }}
             </p>
             {% if user.is_authenticated %}
-                <a href="{{ payment_url }}">Comprar!</a>
+                <a href="{% url 'purchase' product.id %}">Comprar!</a>
             {% endif %}
         </div>
     </div>

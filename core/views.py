@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from core.models import Product, Order
 from django.http import JsonResponse
@@ -32,6 +32,15 @@ def orders(request):
 def product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     
+    context = {
+        'product': product,
+    }
+    return render(request, 'core/product.html', context)
+
+
+def purchase(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
     preference = {
         "items": [
             {
@@ -50,11 +59,7 @@ def product(request, product_id):
 
     payment_url = preferenceResult["response"]["sandbox_init_point"]
 
-    context = {
-        'payment_url': payment_url,
-        'product': product,
-    }
-    return render(request, 'core/product.html', context)
+    return redirect(payment_url)
 
 
 def mp_notifications(request, **kwargs):
