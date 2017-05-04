@@ -63,7 +63,6 @@ def purchase(request, product_id):
 
 
 def mp_notifications(request, **kwargs):
-    # TODO: Encolar el pedido y retornar un 200 directo
     topic = request.GET['topic']
     mp_id = request.GET['id']
     process_notification.delay(topic, mp_id)
