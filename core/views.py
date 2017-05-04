@@ -4,6 +4,7 @@ from django.conf import settings
 from core.models import Product, Order
 from django.http import JsonResponse
 from core.tasks import process_notification
+from django.core.urlresolvers import reverse
 import mercadopago
 
 
@@ -19,6 +20,18 @@ def orders(request):
         'orders': Order.objects.filter(user=request.user),
     }
     return render(request, 'core/orders.html', context)
+
+
+def mp_back_success(request):
+    return render(request, 'core/mp_back_success.html', {})
+
+
+def mp_back_failure(request):
+    return render(request, 'core/mp_back_failure.html', {})
+
+
+def mp_back_pending(request):
+    return render(request, 'core/mp_back_pending.html', {})
 
 
 def product(request, product_id):
@@ -41,7 +54,12 @@ def purchase(request, product_id):
                 "currency_id": "ARS",
                 "unit_price": float(product.price)
             }
-        ]
+        ],
+        "back_urls": {
+            "success": request.build_absolute_uri(reverse('mp-back-success')),
+            "failure": request.build_absolute_uri(reverse('mp-back-failure')),
+            "pending": request.build_absolute_uri(reverse('mp-back-pending')),
+        }
     }
 
     mp = mercadopago.MP(settings.MP_CLIENT_ID, settings.MP_CLIENT_SECRET)
