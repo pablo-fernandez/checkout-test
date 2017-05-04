@@ -26,13 +26,13 @@ class Order(models.Model):
     preference = models.CharField(max_length=50)
     mporder = models.CharField(max_length=50, null=True, blank=True)    
 
-    def complete():
+    def complete(self):
         if not self.status == 'pending':
             raise InvalidStateException
         self.status = 'complete'
         self.save()
 
-    def cancel():
+    def cancel(self):
         if not self.status == 'pending':
             raise InvalidStateException
         self.status = 'cancel'
