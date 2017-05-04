@@ -14,14 +14,6 @@ def home(request):
     return render(request, 'core/home.html', context)
 
 
-def login(request):
-    return render(request, 'core/login.html', {})
-
-
-def logout(request):
-    return render(request, 'core/home.html', context)
-
-
 def orders(request):
     context = {
         'orders': Order.objects.filter(user=request.user),
