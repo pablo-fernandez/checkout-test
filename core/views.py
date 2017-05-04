@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from core.models import Product, Order
 from django.http import JsonResponse
+from core.tasks import process_notification
 import mercadopago
 
 
@@ -42,26 +43,8 @@ def product(request, product_id):
 
 
 def mp_notifications(request, **kwargs):
-    mp = mercadopago.MP(settings.MP_CLIENT_ID, settings.MP_CLIENT_SECRET)
-    
+    # TODO: Encolar el pedido y retornar un 200 directo
     topic = request.GET['topic']
     mp_id = request.GET['id']
-
-    merchant_order_info = None
-
-    if topic == "payment":
-        payment_info = mp.get("/collections/notifications/"+ mp_id)
-        if not payment_info["status"] == 200:
-            return JsonResponse({'status': payment_info["status"]})
-        merchant_order_info = mp.get("/merchant_orders/" + payment_info["response"]["collection"]["merchant_order_id"])
-    elif topic == "merchant_order":
-        merchant_order_info = mp.get("/merchant_orders/" + mp_id)
-
-    if merchant_order_info == None:
-        raise ValueError("Error obtaining the merchant_order")
-
-    if merchant_order_info["status"] == 200:
-        return JsonResponse({
-            "payment": merchant_order_info["response"]["payments"],
-            "shipment": merchant_order_info["response"]["shipments"]
-        })
+    process_notification.delay(topic, mp_id)
+    return JsonResponse({})
