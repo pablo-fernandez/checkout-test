@@ -1,1 +1,2 @@
+[![Build Status](https://travis-ci.org/pablo-fernandez/checkout-test.svg?branch=master)](https://travis-ci.org/pablo-fernandez/checkout-test)
 WebApp developed with Django-Python to test MercadoPago checkout.
