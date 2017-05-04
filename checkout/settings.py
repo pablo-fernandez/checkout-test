@@ -103,6 +103,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+LOGIN_REDIRECT_URL = 'home'
+
 STATIC_URL = '/static/'
 MP_CLIENT_ID = os.environ.get('MP_CLIENT_ID')
 MP_CLIENT_SECRET = os.environ.get('MP_CLIENT_SECRET')

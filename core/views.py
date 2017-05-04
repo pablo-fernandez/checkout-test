@@ -14,6 +14,21 @@ def home(request):
     return render(request, 'core/home.html', context)
 
 
+def login(request):
+    return render(request, 'core/login.html', {})
+
+
+def logout(request):
+    return render(request, 'core/home.html', context)
+
+
+def orders(request):
+    context = {
+        'orders': Order.objects.filter(user=request.user),
+    }
+    return render(request, 'core/orders.html', context)
+
+
 def product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     

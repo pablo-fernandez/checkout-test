@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}
+    Compras
+{% endblock %}
+
+{% block content %}
+	<h2>Compras</h2>
+	<div class="list-group">
+        {% for order in orders %}
+            <div class="list-group-item">
+                <h4 class="list-group-item-heading">{{ order.product }}</h4>
+                <p class="list-group-item-text">Estado: {{ order.status }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
