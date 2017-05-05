@@ -10,3 +10,4 @@ python-dateutil==2.5.3
 gunicorn==19.6.0
 mercadopago
 celery==4.0.0
+coverage==4.4b1
