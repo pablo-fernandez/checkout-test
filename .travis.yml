@@ -19,7 +19,7 @@ before_script:
 
 script:
   - python manage.py migrate --noinput
-  - coverage run manage.py test
+  - coverage run --source=core manage.py test core
 
 after_success:
 - pip freeze
