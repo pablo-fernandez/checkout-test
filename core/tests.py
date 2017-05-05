@@ -69,9 +69,50 @@ class UrlsTestCase(TestCase):
 
 class ViewTestCase(TestCase):
 
-    def test_home(self):
+    def test_home_view(self):
         client = Client()
         response = client.get('/')
         self.assertContains(response, 'MusicStore')
         self.assertContains(response, u'Ingresá')
         self.assertContains(response, u'Elegí tu producto')
+
+    def test_login_view(self):
+        client = Client()
+        response = client.get('/ingresar')
+        self.assertContains(response, 'MusicStore')
+        self.assertContains(response, u'Ingresá')
+        self.assertContains(response, u'Username')
+        self.assertContains(response, u'Password')
+
+    def test_login_success(self):
+        user = User.objects.create(username='test-user')
+        user.set_password('admin')
+        user.save()
+
+        client = Client()
+        response = client.post('/ingresar', {'username': 'test-user', 'password': 'admin'}, follow=True)
+        self.assertContains(response, 'MusicStore')
+        self.assertContains(response, u'Compras')
+        self.assertContains(response, u'Salir')
+
+    def test_login_fails_with_wrong_password(self):
+        user = User.objects.create(username='test-user')
+        user.set_password('admin')
+        user.save()
+
+        client = Client()
+        response = client.post('/ingresar', {'username': 'test-user', 'password': '123'})
+        self.assertContains(response, u'Ingresá')
+        self.assertContains(response, u'Username')
+        self.assertContains(response, u'Password')
+
+    def test_login_fails_with_wrong_username(self):
+        user = User.objects.create(username='test-user')
+        user.set_password('admin')
+        user.save()
+
+        client = Client()
+        response = client.post('/ingresar', {'username': 'test', 'password': 'admin'})
+        self.assertContains(response, u'Ingresá')
+        self.assertContains(response, u'Username')
+        self.assertContains(response, u'Password')
