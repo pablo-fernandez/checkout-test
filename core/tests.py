@@ -131,3 +131,15 @@ class ViewTestCase(TestCase):
         client = Client()
         response = client.get('/compra-pago-pendiente')
         self.assertContains(response, u'La compra se realizó con éxito pero falta completar el pago.')
+
+    def test_product_view(self):
+        product = Product.objects.create(name='Test1', price=10.0)
+        client = Client()
+        response = client.get('/producto/' + str(product.id))
+        self.assertContains(response, 'Test1')
+        self.assertContains(response, '10.0')
+
+    def test_mp_notifications_view(self):
+        client = Client()
+        response = client.get('/mp-notifications?topic=payment&id=123123')
+        self.assertEquals(response.status_code, 200)
