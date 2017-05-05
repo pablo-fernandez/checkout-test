@@ -116,3 +116,18 @@ class ViewTestCase(TestCase):
         self.assertContains(response, u'Ingresá')
         self.assertContains(response, u'Username')
         self.assertContains(response, u'Password')
+
+    def test_mp_back_success(self):
+        client = Client()
+        response = client.get('/compra-exitosa')
+        self.assertContains(response, u'La compra se realizó con éxito.')
+
+    def test_mp_back_failure(self):
+        client = Client()
+        response = client.get('/compra-fallida')
+        self.assertContains(response, u'Algo salió mal durante la compra.')
+
+    def test_mp_back_pending(self):
+        client = Client()
+        response = client.get('/compra-pago-pendiente')
+        self.assertContains(response, u'La compra se realizó con éxito pero falta completar el pago.')
